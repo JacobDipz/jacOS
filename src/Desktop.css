@@ -1,0 +1,97 @@
+.desktop-main {
+  width: 100vw;             /* Fallback for smaller screens to keep breathing room */
+  height: 100vh;            /* Full viewport height to ensure it fills the screen */
+  margin: 0 auto;         /* Crucial: Centers the container horizontally on the page */
+  padding: 5px;          /* Optional: Adds inner spacing so text doesn't touch edges */
+  background-color: #efe2ff; /* Optional: Sets a background color for the content area */
+}
+
+.window {
+  width: 400px;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  min-height: 300px;
+  margin: 20px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.window-header button {
+  border: none;
+  color: white;
+  border-radius: 3px;
+  background-color: #b8b8b8;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-left: auto; /* Pushes the button to the right */
+  cursor: pointer;
+}
+
+.window-close-button:hover {
+  background-color: #ff1a1a;
+}
+
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+.window-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.window-content {
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.app {
+  width: 72px;
+  height: 72px;
+  margin: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.app-title {
+  margin: 4px 0 0;
+  display: block;
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap
+}
+
+.app:hover {
+  background-color: rgba(130, 169, 255, 0.3);
+}
