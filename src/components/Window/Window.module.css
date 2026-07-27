@@ -1,0 +1,51 @@
+
+.window {
+  width: 400px;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  min-height: 300px;
+  margin: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.windowHeader button {
+  border: none;
+  color: white;
+  border-radius: 3px;
+  background-color: #b8b8b8;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-left: auto; /* Pushes the button to the right */
+  cursor: pointer;
+}
+
+.windowCloseButton:hover {
+  background-color: #ff1a1a;
+}
+
+.windowHeader {
+  display: flex;
+  border-radius: 10px 10px 0 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+.windowTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.windowContent {
+  padding: 10px;
+  flex-grow: 1;
+}
