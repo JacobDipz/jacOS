@@ -9,7 +9,7 @@ function Window({ title, content }: {title: string; content: string}) {
       </div>
       <div className={styles.windowContent}>
         {content}
-        </div>
+      </div>
     </div>
   );
 }

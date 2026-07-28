@@ -2,7 +2,7 @@ import styles from './Desktop.module.css'
 import resume from '../../assets/resume.png'
 import folder from '../../assets/folder.png'
 import Window from '../Window/Window.tsx'
-import AppIcon from '../AppIcon/AppIcon.tsx'
+import AppIcon from '../App/App.tsx'
 
 function Desktop() {
   const myApps = apps.map((app, index) => (

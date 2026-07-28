@@ -1,5 +1,5 @@
 
-.appIcon {
+.app {
   width: 72px;
   height: 72px;
   margin: 5px;
@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-.appLogo {
+.appIcon {
   width: 100%;
   height: 100%;
   display: flex;
@@ -21,7 +21,7 @@
   justify-content: center;
 }
 
-.appLogo img {
+.appIcon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -37,6 +37,6 @@
   white-space: nowrap
 }
 
-.appIcon:hover {
+.app:hover {
   background-color: rgba(130, 169, 255, 0.3);
 }
