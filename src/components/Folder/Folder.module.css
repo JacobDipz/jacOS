@@ -1,18 +1,8 @@
-.desktop {
-  width: 100vw;             /* Fallback for smaller screens to keep breathing room */
-  height: 100vh;            /* Full viewport height to ensure it fills the screen */
-  margin: 0 auto;         /* Crucial: Centers the container horizontally on the page */
-  padding: 5px;          /* Optional: Adds inner spacing so text doesn't touch edges */
-  background-size: cover;   /* Ensures the background image covers the entire container */
-  background-position: center; /* Centers the background image */
-  display: flex;            /* Enables flexbox layout */
-  flex-direction: column;   /* Stacks child elements vertically */
-}
-
 .folder {
   width: 100%;             
   flex: 1;                 /* 👈 Change height: 100% to flex: 1 */
-  background-color: darkgrey;
+  background-size: cover;   /* Ensures the background image covers the entire container */
+  background-position: center; /* Centers the background image */
   box-sizing: border-box;
   border-radius: 0px 0px 10px 10px;
 }

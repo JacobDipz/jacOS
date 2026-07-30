@@ -1,9 +1,11 @@
 import type { NodeMetadata } from "../../types";
+import { folderAppInfo } from "../../appTypes";
 
 const projectsMetadata: NodeMetadata = {
-    type: "folder",
-    filename: "projects",
-    title: "My Projects",
+    appInfo: {
+        ...folderAppInfo
+    },
+    title: "My Projects"
 }
 
 export default projectsMetadata;

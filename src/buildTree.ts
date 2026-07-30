@@ -3,7 +3,7 @@ import type { TreeNode } from './types';
 
 function buildTree(): TreeNode {
     const nodes = import.meta.glob<{ default: NodeMetadata }>('./apps/**/*.metadata.ts', { eager: true });
-    const root: TreeNode =  { children: {}, path: '' };
+    const root: TreeNode =  { children: {}, filename: 'desktop', path: '' };
 
     for (const [path, module] of Object.entries(nodes)) {
         const metadata = module.default;
@@ -13,6 +13,9 @@ function buildTree(): TreeNode {
         // Traverse the segments and create nodes (without metadata) as needed
         for (const segment of segments) {
             cursor = findOrCreateChild(cursor, segment);
+        }
+        if (cursor.metadata) {
+            throw new Error(`Duplicate metadata found at ${cursor.path}`);
         }
         cursor.metadata = metadata; // Assign the metadata to the final node
 
@@ -42,6 +45,7 @@ function findOrCreateChild(cursor: TreeNode, segment: string): TreeNode {
         // Create a new node if it doesn't exist
         cursor.children[segment] = { 
             children: {}, 
+            filename: segment,
             path: [cursor.path, segment].filter(Boolean).join('/')
         }; 
     }

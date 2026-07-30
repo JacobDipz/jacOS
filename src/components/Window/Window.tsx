@@ -1,18 +1,17 @@
+import { renderFilename } from '../../nameHelper.ts';
 import type { TreeNode } from '../../types';
 import Folder from '../Folder/Folder.tsx'
 import styles from './Window.module.css'
 
 function Window({ node }: {node : TreeNode}) {
-  const content = <Folder node={node} />
+  const metadata = node.metadata!;
 
-  if (!node.metadata || node.metadata.type === "desktop") {
-    return null;
-  }
+  const content = <Folder node={node} />
 
   return (
     <div className={styles.window}>
       <div className={styles.windowHeader}>
-        <span className={styles.windowTitle}>{node.metadata.title || node.metadata.filename }</span>
+        <span className={styles.windowTitle}>{metadata.title || renderFilename(node) }</span>
         <button className={styles.windowCloseButton}>X</button>
       </div>
       <div className={styles.windowContent}>
