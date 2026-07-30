@@ -1,24 +1,29 @@
-import styles from './Desktop.module.css'
-import resume from '../../assets/resume.png'
-import folder from '../../assets/folder.png'
-import Window from '../Window/Window.tsx'
-import AppIcon from '../App/App.tsx'
+import buildTree from '../../buildTree.ts'
+import Folder from '../Folder/Folder.tsx';
+import Window from '../Window/Window.tsx';
+import type { TreeNode } from '../../types.ts';
 
 function Desktop() {
-  const myApps = apps.map((app, index) => (
-    <AppIcon src={app.src} title={app.title} key={index} />
-  ))
+  const root = buildTree();
+
+  const windows: React.ReactElement[] = [];
+    
+  renderWindows(root, windows);
+    
   return (
-  <div className={styles.desktopMain}>
-    {myApps}
-    <Window title='aboutme.txt' content={'Hello, I am Jacob Dipasupil. I\'m a first year at Harvard studying Applied Mathematics!'} />
-  </div>);
-  
+    <>
+      <Folder node={root} windows={windows}/>
+    </>
+  );
 }
 
-const apps = [
-  { src: folder, title: 'projects' },
-  { src: resume, title: 'aboutme.txt' },
-]
+function renderWindows(node: TreeNode, windows: React.ReactElement[]) {
+    for (const childNode of Object.values(node.children)) {
+      renderWindows(childNode, windows);
+    }
+    if (node.metadata && node.metadata.type !== "desktop") {
+      windows.push(<Window node={node} key={node.path}/>);
+    }
+  }
 
-export default Desktop
+export default Desktop;

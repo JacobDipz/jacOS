@@ -4,7 +4,8 @@
   position: absolute;
   top: 20%;
   left: 20%;
-  min-height: 300px;
+  /* CRITICAL: Switch min-height to height so the browser knows exactly how much space to distribute */
+  height: 300px; 
   margin: 20px;
   border-radius: 10px;
   box-sizing: border-box;
@@ -46,6 +47,8 @@
 }
 
 .windowContent {
-  padding: 10px;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* 👈 Tell the wrapper to align its children vertically */
+  flex: 1;                /* 👈 Tells this container to fill the rest of the window */
+  box-sizing: border-box; /* 👈 Makes sure padding stays inside the size calculations */
 }
