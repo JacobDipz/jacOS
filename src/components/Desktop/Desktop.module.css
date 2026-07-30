@@ -5,6 +5,13 @@
   background-size: cover;   /* Ensures the background image covers the entire container */
   background-origin: initial;
   background-position: center; /* Centers the background image */
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  object-fit: cover;
+  flex: 1;
   display: flex;            /* Enables flexbox layout */
   flex-direction: column;   /* Stacks child elements vertically */
 }
