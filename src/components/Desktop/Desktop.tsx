@@ -8,12 +8,11 @@ function Desktop() {
   const root = buildTree();
 
   const windows: React.ReactElement[] = [];
-;
 
   for (const childNode of Object.values(root.children)) {
     renderWindows(childNode, windows)
   }
-    
+
   return (
     <div className={styles.desktop}>
       <Folder node={root}/>
