@@ -1,9 +1,9 @@
-export type AppInfo = 
-{ // Capitalized & inline export
+export type AppInfo = { 
     fileExtension: string;
-    defaultLogo: string;
-    customLogo?: string;
-    customBackground?: string;
+    logo: string;
+    background?: string;
+    width?: string;
+    height?: string;
 }
 
 export type NodeMetadata = { 
@@ -21,6 +21,7 @@ export type TreeNode = {
 
 export type FolderProps = {
     node: TreeNode,
+    openWindows: React.ReactElement[],
     handleAppClick: (key: string) => void,
 }
 
@@ -32,5 +33,7 @@ export type AppProps = {
 export type windowProps = {
     node: TreeNode,
     handleWindowClose: () => void,
-    handleAppClick: (key: string) => void
+    handleWindowClick: () => void,
+    handleAppClick: (key: string) => void,
+    zOrder: number,
 }

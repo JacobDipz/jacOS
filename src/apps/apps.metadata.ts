@@ -5,7 +5,7 @@ import desktopBackground from '../assets/windowsBackground.jpg';
 const appsMetadata: NodeMetadata = {
     appInfo: {
         ...folderAppInfo,
-        customBackground: desktopBackground,
+        background: desktopBackground,
     }
 };
 

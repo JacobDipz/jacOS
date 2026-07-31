@@ -1,18 +1,32 @@
+import { Rnd } from 'react-rnd';
 import { renderFilename } from '../../nameHelper.ts';
 import type { windowProps } from '../../types';
 import Folder from '../Folder/Folder.tsx'
 import styles from './Window.module.css'
 
-function Window({ node, handleWindowClose, handleAppClick }: windowProps) {
+function Window({ node, handleWindowClose, handleAppClick, handleWindowClick, zOrder }: windowProps) {
   const metadata = node.metadata!;
 
   const content = metadata.appInfo.fileExtension.length === 0 
-  ?  <Folder node={node} handleAppClick={handleAppClick} />
+  ?  <Folder node={node} openWindows={[]} handleAppClick={handleAppClick} />
   :  metadata.content!;
 
+  const appWidth = metadata.appInfo.width || '50%';
+  const appHeight = metadata.appInfo.height || '60%';
 
   return (
-    <div className={styles.window}>
+    <Rnd
+      default={{
+        x: 50,
+        y: 50,
+        width: appWidth,
+        height: appHeight,
+      }}
+      style={{zIndex: zOrder}}
+      dragHandleClassName={styles.windowHeader}
+      onMouseDown={handleWindowClick}
+      className={styles.window}
+    >
       <div className={styles.windowHeader}>
         <span className={styles.windowTitle}>{metadata.title || renderFilename(node) }</span>
         <button className={styles.windowCloseButton} onClick={handleWindowClose}>
@@ -22,8 +36,9 @@ function Window({ node, handleWindowClose, handleAppClick }: windowProps) {
       <div className={styles.windowContent}>
         {content}
       </div>
-    </div>
+    </Rnd>
   );
+  
 }
 
 export default Window;

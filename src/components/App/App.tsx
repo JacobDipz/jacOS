@@ -5,7 +5,7 @@ import { renderFilename } from '../../nameHelper.ts';
 function App({ node, handleAppClick }: AppProps) {
   const metadata = node.metadata;
 
-  const logo = metadata!.appInfo.customLogo || metadata!.appInfo.defaultLogo;
+  const logo = metadata!.appInfo.logo;
   const title = renderFilename(node);
   
   return (

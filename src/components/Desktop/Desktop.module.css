@@ -5,7 +5,7 @@
   background-size: cover;   /* Ensures the background image covers the entire container */
   background-origin: initial;
   background-position: center; /* Centers the background image */
-  position: absolute;
+  position: relative;
   top:0;
   bottom:0;
   left:0;

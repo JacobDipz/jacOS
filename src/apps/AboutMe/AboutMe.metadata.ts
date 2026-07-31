@@ -6,7 +6,7 @@ import AboutMeLogo from "./AboutMeLogo.png";
 const aboutMeMetadata: NodeMetadata = {
     appInfo: {
         ...txtAppInfo,
-        customLogo: AboutMeLogo
+        logo: AboutMeLogo
     },
     content: AboutMe(), // Use the imported AboutMe component as the content
     title: 'About me!'

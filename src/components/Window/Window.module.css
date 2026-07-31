@@ -1,9 +1,7 @@
 
 .window {
   width: 400px;
-  position: absolute;
-  top: 20%;
-  left: 20%;
+  position: relative;
   /* CRITICAL: Switch min-height to height so the browser knows exactly how much space to distribute */
   height: 300px; 
   margin: 20px;

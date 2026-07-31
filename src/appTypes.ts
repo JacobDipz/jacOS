@@ -5,18 +5,22 @@ import defaultTxtLogo from './assets/logos/TxtLogo.png';
 
 export const folderAppInfo: AppInfo = {
     fileExtension: '', 
-    defaultLogo: defaultFolderLogo,
-    customBackground: defaultFolderBackground,
+    logo: defaultFolderLogo,
+    background: defaultFolderBackground,
+    width: '40%',
+    height: '50%',
 };
 
 export const txtAppInfo: AppInfo = {
     fileExtension: 'txt',
-    defaultLogo: defaultTxtLogo,
+    logo: defaultTxtLogo,
+    width: '30%',
+    height: '50%',
 };
 
 export const projectAppInfo: AppInfo = {
     fileExtension: 'proj',
-    defaultLogo: defaultTxtLogo, // CHANGE LATER
+    logo: defaultTxtLogo, // CHANGE LATER
 }
 
 

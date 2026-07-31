@@ -6,27 +6,46 @@ import { useState } from 'react';
 
 function Desktop() {
   const [root, pathToNode] = buildTree();
-  const [openWindows, setOpenWindows] = useState(new Array<string>()) 
+  const [openWindowPaths, setOpenWindowPaths] = useState(new Array<string>());
+  const [zOrder, setZOrder] = useState(new Array<string>());
 
   function handleOpen(path: string) {
-    setOpenWindows([...openWindows, path])
+    if (!openWindowPaths.includes(path)){
+      setOpenWindowPaths([...openWindowPaths, path])
+    }
+    handleWindowClick(path);
   }
 
-  function handleClose(path: string) {
-    setOpenWindows(openWindows.filter(key => path !== key ));
+  function handleWindowClick(path: string) {
+    if (zOrder.includes(path)){
+      setZOrder([...zOrder.filter(key => key !== path), path]);
+    }
+    else {
+      setZOrder([...zOrder, path]);
+    }
+  }
+
+  function handleWindowClose(path: string) {
+    setOpenWindowPaths(openWindowPaths.filter(key => path !== key ));
+  }
+
+  const openWindows: React.ReactElement[] = [];
+  for (const path of openWindowPaths) {
+    openWindows.push(
+      <Window 
+        key={path} 
+        node={pathToNode[path]} 
+        handleWindowClose={ () => handleWindowClose(path)}
+        handleAppClick={ handleOpen }
+        handleWindowClick= { () => handleWindowClick(path)}
+        zOrder={zOrder.indexOf(path)}
+      />
+    )
   }
 
   return (
     <div className={styles.desktop}>
-      <Folder node={root} handleAppClick={handleOpen}/>
-      {openWindows.map((path) => (
-          <Window 
-            node={pathToNode[path]} 
-            key={path} 
-            handleWindowClose={ () => handleClose(path)}
-            handleAppClick={ handleOpen }
-          />
-      ))};
+      <Folder node={root} openWindows={openWindows} handleAppClick={handleOpen}/>
     </div>
   );
 }
