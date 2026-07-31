@@ -1,8 +1,9 @@
 import type { NodeMetadata } from './types';
 import type { TreeNode } from './types';
 
-function buildTree(): TreeNode {
+function buildTree(): [TreeNode, Record<string, TreeNode>] {
     const nodes = import.meta.glob<{ default: NodeMetadata }>('./apps/**/*.metadata.ts', { eager: true });
+    const pathToNode: Record<string,TreeNode> = {}
     const root: TreeNode =  { children: {}, filename: 'desktop', path: '' };
 
     for (const [path, module] of Object.entries(nodes)) {
@@ -12,7 +13,7 @@ function buildTree(): TreeNode {
         let cursor = root;
         // Traverse the segments and create nodes (without metadata) as needed
         for (const segment of segments) {
-            cursor = findOrCreateChild(cursor, segment);
+            cursor = findOrCreateChild(cursor, segment, pathToNode);
         }
         if (cursor.metadata) {
             throw new Error(`Duplicate metadata found at ${cursor.path}`);
@@ -23,7 +24,7 @@ function buildTree(): TreeNode {
 
     validateTree(root)
 
-    return root;
+    return [root, pathToNode];
 }
 
 function validateTree(node: TreeNode): void {
@@ -40,14 +41,16 @@ function validateTree(node: TreeNode): void {
     }
 }
 
-function findOrCreateChild(cursor: TreeNode, segment: string): TreeNode {
+function findOrCreateChild(cursor: TreeNode, segment: string, pathToNode: Record<string, TreeNode>): TreeNode {
     if (!cursor.children[segment]) {
         // Create a new node if it doesn't exist
+        const path = [cursor.path, segment].filter(Boolean).join('/');
         cursor.children[segment] = { 
             children: {}, 
             filename: segment,
-            path: [cursor.path, segment].filter(Boolean).join('/')
+            path: path,
         }; 
+        pathToNode[path]= cursor.children[segment];
     }
     return cursor.children[segment];
 }

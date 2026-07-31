@@ -1,31 +1,34 @@
 import buildTree from '../../buildTree.ts'
 import Window from '../Window/Window.tsx';
-import type { TreeNode } from '../../types.ts';
 import styles from './Desktop.module.css';
 import Folder from '../Folder/Folder.tsx';
+import { useState } from 'react';
 
 function Desktop() {
-  const root = buildTree();
+  const [root, pathToNode] = buildTree();
+  const [openWindows, setOpenWindows] = useState(new Array<string>()) 
 
-  const windows: React.ReactElement[] = [];
+  function handleOpen(path: string) {
+    setOpenWindows([...openWindows, path])
+  }
 
-  for (const childNode of Object.values(root.children)) {
-    renderWindows(childNode, windows)
+  function handleClose(path: string) {
+    setOpenWindows(openWindows.filter(key => path !== key ));
   }
 
   return (
     <div className={styles.desktop}>
-      <Folder node={root}/>
-      {windows}
+      <Folder node={root} handleAppClick={handleOpen}/>
+      {openWindows.map((path) => (
+          <Window 
+            node={pathToNode[path]} 
+            key={path} 
+            handleWindowClose={ () => handleClose(path)}
+            handleAppClick={ handleOpen }
+          />
+      ))};
     </div>
   );
 }
-
-function renderWindows(node: TreeNode, windows: React.ReactElement[]) {
-    for (const childNode of Object.values(node.children)) {
-      renderWindows(childNode, windows);
-    }
-    windows.push(<Window node={node} key={node.path}/>);
-  }
 
 export default Desktop;

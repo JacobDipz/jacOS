@@ -1,9 +1,15 @@
-import type { TreeNode } from "../../types";
+import type { FolderProps } from "../../types";
 import App from "../App/App.tsx";
 import styles from "./Folder.module.css";
 
-function Folder({ node }: { node: TreeNode}) {
-    const folderApps = Object.values(node.children).map(childNode => <App key={childNode.path} node={childNode} />);
+function Folder({ node, handleAppClick }: FolderProps) {
+    const folderApps = Object.values(node.children).map(childNode => 
+        <App 
+            key={childNode.path} 
+            node={childNode} 
+            handleAppClick={() => handleAppClick(childNode.path)} 
+        />
+    );
     const background = node.metadata!.appInfo.customBackground;
     return (
         <div 

@@ -6,10 +6,9 @@ export type AppInfo =
     customBackground?: string;
 }
 
-
 export type NodeMetadata = { 
     appInfo: AppInfo; 
-    content?: React.ComponentType; 
+    content?: React.ReactElement; 
     title?: string  
 };
 
@@ -19,3 +18,19 @@ export type TreeNode = {
     filename: string;
     children: Record<string, TreeNode>;
 };
+
+export type FolderProps = {
+    node: TreeNode,
+    handleAppClick: (key: string) => void,
+}
+
+export type AppProps = {
+    node: TreeNode,
+    handleAppClick: () => void
+}
+
+export type windowProps = {
+    node: TreeNode,
+    handleWindowClose: () => void,
+    handleAppClick: (key: string) => void
+}

@@ -8,7 +8,7 @@ const aboutMeMetadata: NodeMetadata = {
         ...txtAppInfo,
         customLogo: AboutMeLogo
     },
-    content: AboutMe, // Use the imported AboutMe component as the content
+    content: AboutMe(), // Use the imported AboutMe component as the content
     title: 'About me!'
 };
 
