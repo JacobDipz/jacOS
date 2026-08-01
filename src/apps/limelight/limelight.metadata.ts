@@ -1,5 +1,5 @@
 import type { NodeMetadata } from "../../types";
-import { projectAppInfo } from "../../appTypes";
+import { projectAppInfo } from "../../appTypes/ProjectType/ProjectAppInfo";
 
 const projectsMetadata: NodeMetadata = {
     appInfo: {

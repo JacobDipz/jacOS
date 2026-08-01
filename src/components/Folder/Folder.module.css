@@ -1,8 +1,10 @@
 .folder {
   width: 100%;             
   flex: 1;                 /* 👈 Change height: 100% to flex: 1 */
-  background-size: cover;   /* Ensures the background image covers the entire container */
+  background-size: contain;   /* Ensures the background image covers the entire container */
   background-position: center; /* Centers the background image */
+  background-repeat: no-repeat; /* Prevents the background image from repeating */
+  background-origin: initial;
   box-sizing: border-box;
   border-radius: 0px 0px 10px 10px;
   padding: 1%;

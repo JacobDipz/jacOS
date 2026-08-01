@@ -1,14 +1,14 @@
 import type { NodeMetadata } from "../../types";
-import { txtAppInfo } from "../../appTypes";
+import { txtAppInfo } from "../../appTypes/TxtType/TxtAppInfo";
 import AboutMe from "./AboutMe";
 import AboutMeLogo from "./AboutMeLogo.png";
 
 const aboutMeMetadata: NodeMetadata = {
     appInfo: {
         ...txtAppInfo,
-        logo: AboutMeLogo
+        logo: AboutMeLogo,
+        content: AboutMe(),
     },
-    content: AboutMe(), // Use the imported AboutMe component as the content
     title: 'About me!'
 };
 

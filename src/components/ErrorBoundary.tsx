@@ -26,12 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
         const { error } = this.state;
 
         if (error) {
-            if (error.message.includes("Duplicate metadata found at ")){
-                return <h2>Duplicate metadata found</h2>;
-            }
-            return (
-                <h2>{this.props.fallback}</h2>
-            );
+            return <h1>Something went wrong: {error.message}</h1>;
         }
         return this.props.children;
     }

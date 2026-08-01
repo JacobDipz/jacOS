@@ -1,6 +1,6 @@
 import type { NodeMetadata } from '../types';
-import { folderAppInfo } from '../appTypes';
-import desktopBackground from '../assets/windowsBackground.jpg';
+import { folderAppInfo } from '../appTypes/FolderType/FolderAppInfo';
+import desktopBackground from '../assets/background.gif';
 
 const appsMetadata: NodeMetadata = {
     appInfo: {

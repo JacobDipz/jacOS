@@ -26,7 +26,8 @@ function Desktop() {
   }
 
   function handleWindowClose(path: string) {
-    setOpenWindowPaths(openWindowPaths.filter(key => path !== key ));
+    setOpenWindowPaths(openWindowPaths.filter(key => key !== path ));
+    setZOrder([...zOrder.filter(key => key !== path), path]);
   }
 
   const openWindows: React.ReactElement[] = [];

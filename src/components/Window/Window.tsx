@@ -7,9 +7,9 @@ import styles from './Window.module.css'
 function Window({ node, handleWindowClose, handleAppClick, handleWindowClick, zOrder }: windowProps) {
   const metadata = node.metadata!;
 
-  const content = metadata.appInfo.fileExtension.length === 0 
+  const content = metadata.appInfo.kind === 'folder'
   ?  <Folder node={node} openWindows={[]} handleAppClick={handleAppClick} />
-  :  metadata.content!;
+  :  metadata.appInfo.content;
 
   const appWidth = metadata.appInfo.width || '50%';
   const appHeight = metadata.appInfo.height || '60%';
