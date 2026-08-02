@@ -1,11 +1,11 @@
-import type { NodeMetadata } from "../../types";
-import { projectAppInfo } from "../../appTypes/ProjectType/ProjectAppInfo";
+import type { NodeMetadata } from "../../tree/types";
+import { projectAppInfo } from "../../appInfo/projectAppInfo/projectAppInfo";
 
-const projectsMetadata: NodeMetadata = {
+const limelightMetadata: NodeMetadata = {
     appInfo: {
         ...projectAppInfo
     },
     title: "AADT Limelight"
 }
 
-export default projectsMetadata;
+export default limelightMetadata;

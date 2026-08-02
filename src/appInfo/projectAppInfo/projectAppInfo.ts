@@ -1,10 +1,10 @@
-import type { AppInfo } from '../../types.ts';
-import TxtLogo from '../../assets/logos/TxtLogo.gif';
+import type { AppInfo } from '../../tree/types.ts';
+import projectLogo from '../../assets/logos/txt-logo.gif'; // FIX LATER
 import ProjectDefault from './ProjectDefault.tsx';
 
 export const projectAppInfo = {
     kind: 'file',
     fileExtension: 'proj',
-    logo: TxtLogo,
+    logo: projectLogo,
     content: ProjectDefault(),
 } satisfies AppInfo;

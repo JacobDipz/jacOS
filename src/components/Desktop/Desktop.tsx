@@ -1,4 +1,4 @@
-import buildTree from '../../buildTree.ts'
+import buildTree from '../../tree/buildTree.ts'
 import Window from '../Window/Window.tsx';
 import styles from './Desktop.module.css';
 import Folder from '../Folder/Folder.tsx';
@@ -27,7 +27,7 @@ function Desktop() {
 
   function handleWindowClose(path: string) {
     setOpenWindowPaths(openWindowPaths.filter(key => key !== path ));
-    setZOrder([...zOrder.filter(key => key !== path), path]);
+    setZOrder(zOrder.filter(key => key !== path));
   }
 
   const openWindows: React.ReactElement[] = [];

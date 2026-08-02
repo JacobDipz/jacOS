@@ -1,6 +1,12 @@
-import type { FolderProps } from "../../types";
+import type { ValidTreeNode } from "../../tree/types.ts";
 import App from "../App/App.tsx";
 import styles from "./Folder.module.css";
+
+type FolderProps = {
+    node: ValidTreeNode,
+    openWindows: React.ReactElement[],
+    handleAppClick: (key: string) => void,
+}
 
 function Folder({ node, openWindows, handleAppClick }: FolderProps) {
     if (node.metadata.appInfo.kind !== 'folder') {

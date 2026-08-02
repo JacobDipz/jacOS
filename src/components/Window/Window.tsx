@@ -1,15 +1,23 @@
 import { Rnd } from 'react-rnd';
-import { renderFilename } from '../../nameHelper.ts';
-import type { windowProps } from '../../types';
+import { renderFilename } from '../renderFilename.ts';
+import type { ValidTreeNode } from '../../tree/types.ts';
 import Folder from '../Folder/Folder.tsx'
 import styles from './Window.module.css'
 
-function Window({ node, handleWindowClose, handleAppClick, handleWindowClick, zOrder }: windowProps) {
-  const metadata = node.metadata!;
+type WindowProps = {
+    node: ValidTreeNode,
+    handleWindowClose: () => void,
+    handleWindowClick: () => void,
+    handleAppClick: (key: string) => void,
+    zOrder: number,
+}
 
-  const content = metadata.appInfo.kind === 'folder'
-  ?  <Folder node={node} openWindows={[]} handleAppClick={handleAppClick} />
-  :  metadata.appInfo.content;
+function Window({ node, handleWindowClose, handleAppClick, handleWindowClick, zOrder }: WindowProps) {
+  const metadata = node.metadata;
+
+  const content = metadata.appInfo.kind === 'file'
+  ?  metadata.appInfo.content
+  :  <Folder node={node} openWindows={[]} handleAppClick={handleAppClick} />;
 
   const appWidth = metadata.appInfo.width || '50%';
   const appHeight = metadata.appInfo.height || '60%';

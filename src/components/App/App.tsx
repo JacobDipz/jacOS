@@ -1,11 +1,16 @@
 import styles from './App.module.css'
-import type { AppProps } from '../../types.ts';
-import { renderFilename } from '../../nameHelper.ts';
+import type { ValidTreeNode } from '../../tree/types.ts';
+import { renderFilename } from '../renderFilename.ts';
+
+type AppProps = {
+    node: ValidTreeNode,
+    handleAppClick: () => void
+}
 
 function App({ node, handleAppClick }: AppProps) {
   const metadata = node.metadata;
 
-  const logo = metadata!.appInfo.logo;
+  const logo = metadata.appInfo.logo;
   const title = renderFilename(node);
   
   return (

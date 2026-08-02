@@ -1,7 +1,7 @@
-import type { NodeMetadata } from "../../types";
-import { txtAppInfo } from "../../appTypes/TxtType/TxtAppInfo";
+import type { NodeMetadata } from "../../tree/types";
+import { txtAppInfo } from "../../appInfo/txtAppInfo/txtAppInfo.ts";
 import AboutMe from "./AboutMe";
-import AboutMeLogo from "./AboutMeLogo.png";
+import AboutMeLogo from "./about-me-logo.png";
 
 const aboutMeMetadata: NodeMetadata = {
     appInfo: {

@@ -6,14 +6,12 @@ export type AppInfo = {
     height?: string;
     content: React.ReactElement;
 } | { 
-    kind: 'folder';
+    kind: 'folder' | 'desktop';
     background: string;
     logo: string;
     width?: string;
     height?: string;
 }
-
-export type NodeRegistry = Record<string, ValidTreeNode>;
 
 export type NodeMetadata = { 
     appInfo: AppInfo;  
@@ -31,24 +29,5 @@ export type ValidTreeNode = {
     metadata: NodeMetadata;
     path: string;
     filename: string;
-    children: NodeRegistry;
+    children: Record<string, ValidTreeNode>;
 };
-
-export type FolderProps = {
-    node: ValidTreeNode,
-    openWindows: React.ReactElement[],
-    handleAppClick: (key: string) => void,
-}
-
-export type AppProps = {
-    node: ValidTreeNode,
-    handleAppClick: () => void
-}
-
-export type windowProps = {
-    node: ValidTreeNode,
-    handleWindowClose: () => void,
-    handleWindowClick: () => void,
-    handleAppClick: (key: string) => void,
-    zOrder: number,
-}

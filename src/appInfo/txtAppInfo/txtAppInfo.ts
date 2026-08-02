@@ -1,10 +1,10 @@
-import type { AppInfo } from '../../types.ts';
-import TxtLogo from '../../assets/logos/TxtLogo.gif';
+import type { AppInfo } from '../../tree/types.ts';
+import txtLogo from '../../assets/logos/txt-logo.gif';
 import TxtDefault from './TxtDefault.tsx';
 
 export const txtAppInfo = {
     kind: 'file',
     fileExtension: 'txt',
-    logo: TxtLogo,
+    logo: txtLogo,
     content: TxtDefault(),
 } satisfies AppInfo;

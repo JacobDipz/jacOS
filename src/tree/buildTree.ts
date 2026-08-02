@@ -1,8 +1,8 @@
-import type { NodeMetadata, NodeRegistry, ValidTreeNode,  } from './types';
+import type { NodeMetadata, ValidTreeNode,  } from './types';
 import type { TreeNode } from './types';
 
-function buildTree(): [ValidTreeNode, NodeRegistry] {
-    const nodes = import.meta.glob<{ default: NodeMetadata }>('./apps/**/*.metadata.ts', { eager: true });
+function buildTree(): [ValidTreeNode, Record<string, ValidTreeNode>] {
+    const nodes = import.meta.glob<{ default: NodeMetadata }>('../apps/**/*.metadata.ts', { eager: true });
     const pathToNode: Record<string, ValidTreeNode> = {}
     const root: TreeNode =  { children: {}, filename: 'desktop', path: '' };
 
@@ -21,11 +21,10 @@ function buildTree(): [ValidTreeNode, NodeRegistry] {
         cursor.metadata = metadata; // Assign the metadata to the final node
     }
 
-
     return validateTree(root, pathToNode);
 }
 
-function validateTree(node: TreeNode, pathToNode: NodeRegistry): [ValidTreeNode, NodeRegistry] {
+function validateTree(node: TreeNode, pathToNode: Record<string, ValidTreeNode>): [ValidTreeNode, Record<string, ValidTreeNode>] {
     if (!node.metadata) {
         if (!node.path) {
             throw new Error(`Root node must have metadata.`);
@@ -43,8 +42,6 @@ function validateTree(node: TreeNode, pathToNode: NodeRegistry): [ValidTreeNode,
     return [validNode, pathToNode];
 }
     
-    
-
 function findOrCreateChild(cursor: TreeNode, segment: string): TreeNode {
     if (!cursor.children[segment]) {
         // Create a new node if it doesn't exist
@@ -59,7 +56,7 @@ function findOrCreateChild(cursor: TreeNode, segment: string): TreeNode {
 }
 
 function routeFromPath(path: string): string[] {
-    path = path.replace(/^\.\/apps\//, ''); // Remove the leading './apps/' from the path
+    path = path.replace(/^\.\.\/apps\//, ''); // Remove the leading './apps/' from the path
     return path.split('/').slice(0,-1); // Remove the last segment (the filename);
 }
 
