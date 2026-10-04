@@ -1,9 +1,7 @@
 
 .app {
-  width: 72px;
-  height: 72px;
-  margin: 5px;
-  margin-bottom: 15px;
+  width: 115px;  /* fits the longest filename label and keeps the centered icon on the art-pixel grid */
+  margin: 5px 0 15px;
   padding: 5px;
   border-radius: 5px;
   box-sizing: border-box;
@@ -13,9 +11,10 @@
   align-items: center;
 }
 
+/* Icons are drawn at 15x15 art pixels */
 .appIcon {
-  width: 100%;
-  height: 100%;
+  width: calc(15 * var(--px));
+  height: calc(15 * var(--px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,14 +25,16 @@
   height: 100%;
   object-fit: contain;
   display: block;
+  image-rendering: pixelated;
 }
 
 .appTitle {
   margin: 4px 0 0;
   display: block;
-  font-size: 16px;
+  font-family: var(--font-minecraft);
+  font-size: var(--minecraft-px);
   line-height: 1.2;
-  color:#ccc;
+  color:#f8e5ff;
   white-space: nowrap
 }
 

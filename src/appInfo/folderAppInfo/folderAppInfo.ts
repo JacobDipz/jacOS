@@ -1,9 +1,10 @@
 import type { AppInfo } from '../../tree/types.ts';
-import defaultFolderBackground from '../../assets/backgrounds/fish-background.jpg';
 import defaultFolderLogo from '../../assets/logos/folder-logo.png'
+import defaultBackground from "../../assets/backgrounds/stripe.png"
 
 export const folderAppInfo = {
     kind: 'folder',
     logo: defaultFolderLogo,
-    background: defaultFolderBackground,
+    background: defaultBackground,
+    tileBackground: true,
 } satisfies AppInfo;

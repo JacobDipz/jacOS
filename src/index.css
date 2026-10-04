@@ -1,0 +1,42 @@
+/* Global styles. Component styles live in their own .module.css files. */
+
+/* Daydream DEMO: free for personal use only, see fonts/daydream_3/READ ME.rtf */
+@font-face {
+  font-family: 'Daydream';
+  src: url('./assets/fonts/daydream_3/Daydream DEMO.otf') format('opentype');
+  font-display: block; /* avoid a flash of the fallback font on load */
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('./assets/fonts/Minecraft.ttf') format('truetype');
+  font-display: block;
+}
+
+:root {
+  /*
+   * Daydream is drawn on a grid of 96 font units per pixel (1024 per em), so at this
+   * font-size one font pixel is exactly one screen pixel. Use whole multiples of it,
+   * e.g. calc(2 * var(--text-px)), to keep letter edges sharp.
+   */
+  --text-px: calc(1024px / 96);
+
+  /* Minecraft is drawn on a 64-unit grid (1024 per em): one font pixel per screen pixel at 16px */
+  --minecraft-px: 16px;
+  --font-minecraft: 'Minecraft', sans-serif;
+}
+
+body {
+  margin: 0; /* removes the browser's default 8px gap around the desktop */
+  font-family: 'Daydream', var(--font-minecraft); /* Minecraft covers characters the demo lacks, like : ( ) - */
+  font-size: calc(2 * var(--text-px));
+  font-synthesis: none; /* Daydream has one weight; fake bold/italic would smear the pixels */
+}
+
+/* Form controls don't inherit fonts by default */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

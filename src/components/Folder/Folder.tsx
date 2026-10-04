@@ -1,5 +1,6 @@
 import type { ValidTreeNode } from "../../tree/types.ts";
 import App from "../App/App.tsx";
+import { PX } from "../pixelScale.ts";
 import styles from "./Folder.module.css";
 
 type FolderProps = {
@@ -19,11 +20,16 @@ function Folder({ node, openWindows, handleAppClick }: FolderProps) {
             handleAppClick={() => handleAppClick(childNode.path)} 
         />
     );
-    const background = node.metadata.appInfo.background;
+    const { background, tileBackground } = node.metadata.appInfo;
+    // Declaring the tile as a 1/PX-resolution image makes the browser draw it PX times larger,
+    // so tiled art lines up with the window art's pixel scale
+    const backgroundImage = tileBackground
+        ? `image-set(url(${background}) ${1 / PX}x)`
+        : `url(${background})`;
     return (
         <div 
-            className={styles.folder} 
-            style={ background ? {backgroundImage: `url(${background})`} : {}}
+            className={tileBackground ? `${styles.folder} ${styles.tiled}` : styles.folder} 
+            style={ background ? { backgroundImage } : {}}
         >
             {folderApps}
             {openWindows}

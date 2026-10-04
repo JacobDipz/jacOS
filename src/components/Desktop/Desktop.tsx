@@ -3,6 +3,7 @@ import Window from '../Window/Window.tsx';
 import styles from './Desktop.module.css';
 import Folder from '../Folder/Folder.tsx';
 import { useState } from 'react';
+import { PX } from '../pixelScale.ts';
 
 function Desktop() {
   const [root, pathToNode] = buildTree();
@@ -45,7 +46,7 @@ function Desktop() {
   }
 
   return (
-    <div className={styles.desktop}>
+    <div className={styles.desktop} style={{ '--px': `${PX}px` } as React.CSSProperties}>
       <Folder node={root} openWindows={openWindows} handleAppClick={handleOpen}/>
     </div>
   );

@@ -2,15 +2,16 @@ export type AppInfo = {
     kind: 'file';
     fileExtension: string;
     logo: string;
-    width?: string;
-    height?: string;
+    width?: number; // in art pixels
+    height?: number; // in art pixels
     content: React.ReactElement;
 } | { 
     kind: 'folder' | 'desktop';
-    background: string;
+    background?: string;
+    tileBackground?: boolean; // repeat the background as a pattern instead of fitting one copy
     logo: string;
-    width?: string;
-    height?: string;
+    width?: number; // in art pixels
+    height?: number; // in art pixels
 }
 
 export type NodeMetadata = { 

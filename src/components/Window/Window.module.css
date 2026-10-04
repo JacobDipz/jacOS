@@ -1,52 +1,99 @@
+/*
+ * All sizes are multiples of --px (one art pixel), set on the desktop.
+ * border-image numbers without units are slice sizes in the source PNG's pixels.
+ */
 
 .window {
-  width: 400px;
-  position: relative;
-  /* CRITICAL: Switch min-height to height so the browser knows exactly how much space to distribute */
-  height: 300px; 
-  margin: 20px;
-  border-radius: 10px;
   box-sizing: border-box;
-  background-color: #fff;
+  image-rendering: pixelated;
+}
+
+/* The frame wraps only the area under the header */
+.windowBody {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-}
-
-.windowHeader button {
-  border: none;
-  color: white;
-  border-radius: 3px;
-  background-color: #b8b8b8;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin-left: auto; /* Pushes the button to the right */
-  cursor: pointer;
-}
-
-.windowCloseButton:hover {
-  background-color: #ff1a1a;
+  flex: 1;
+  min-height: 0;
+  border-style: solid;
+  border-width: calc(4 * var(--px));
+  border-image: url('../../assets/window/window-frame.png') 4 fill / calc(4 * var(--px)) stretch;
 }
 
 .windowHeader {
   display: flex;
-  border-radius: 10px 10px 0 0;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ccc;
+  height: calc(11 * var(--px));
+  flex-shrink: 0;
+  user-select: none;  /* selected title text would start a native text drag */
+}
+
+.windowIcon {
+  box-sizing: border-box;
+  width: calc(11 * var(--px));
+  height: 100%;
+  flex-shrink: 0;
+  border-style: solid;
+  border-width: calc(2 * var(--px));
+  border-image: url('../../assets/window/icon-box.png') 2 fill / calc(2 * var(--px)) stretch;
+}
+
+.windowIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .windowTitle {
-  font-size: 16px;
-  font-weight: bold;
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  padding-top: var(--px);  /* Minecraft's caps start at the top of the line, so this is the gap above the text */
+  /*padding: 0 calc(2 * var(--px));*/
+  border-style: solid;
+  border-width: calc(2 * var(--px));
+  border-image: url('../../assets/window/titlebar.png') 2 fill / calc(2 * var(--px)) stretch;
+  color: white;
+  font-family: var(--font-minecraft);
+  font-size: calc(2 * var(--minecraft-px));
+  line-height: 1;
+}
+
+.windowTitle span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.windowCloseButton {
+  width: calc(11 * var(--px));
+  height: 100%;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: url('../../assets/window/close-button.png') center / 100% 100%;
+  cursor: pointer;
+}
+
+.windowCloseButton:active {
+  background-image: url('../../assets/window/close-button-pressed.png');
 }
 
 .windowContent {
   display: flex;
-  flex-direction: column; /* 👈 Tell the wrapper to align its children vertically */
-  flex: 1;                /* 👈 Tells this container to fill the rest of the window */
-  box-sizing: border-box; /* 👈 Makes sure padding stays inside the size calculations */
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;          /* lets the content shrink and scroll instead of overflowing the frame */
+  overflow: auto;
+  box-sizing: border-box;
+  image-rendering: auto;  /* image-rendering is inherited; keep photos in apps smooth */
+}
+
+.resizeGrip {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
 }
