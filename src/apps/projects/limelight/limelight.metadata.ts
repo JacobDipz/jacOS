@@ -1,5 +1,5 @@
-import type { NodeMetadata } from "../../tree/types";
-import { projectAppInfo } from "../../appInfo/projectAppInfo/projectAppInfo";
+import type { NodeMetadata } from "../../../tree/types";
+import { projectAppInfo } from "../../../appInfo/projectAppInfo/projectAppInfo";
 
 const limelightMetadata: NodeMetadata = {
     appInfo: {

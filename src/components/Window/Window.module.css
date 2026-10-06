@@ -8,6 +8,11 @@
   image-rendering: pixelated;
 }
 
+/* Windows take focus when they open; being on top already shows which one is active */
+.window:focus {
+  outline: none;
+}
+
 /* The frame wraps only the area under the header */
 .windowBody {
   box-sizing: border-box;

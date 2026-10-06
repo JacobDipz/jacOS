@@ -1,6 +1,7 @@
 .desktop {
   width: 100vw;             /* Fallback for smaller screens to keep breathing room */
   height: 100vh;            /* Full viewport height to ensure it fills the screen */
+  height: 100dvh;           /* On phones, excludes the browser's address bar (falls back to 100vh above) */
   margin: 0 auto;         /* Crucial: Centers the container horizontally on the page */
   background-size:contain;   /* Ensures the background image covers the entire container */
   background-origin: initial;

@@ -6,10 +6,12 @@ import styles from "./Folder.module.css";
 type FolderProps = {
     node: ValidTreeNode,
     openWindows: React.ReactElement[],
-    handleAppClick: (key: string) => void,
+    selectedPath: string | null,
+    handleAppOpen: (path: string) => void,
+    handleAppSelect: (path: string | null) => void,
 }
 
-function Folder({ node, openWindows, handleAppClick }: FolderProps) {
+function Folder({ node, openWindows, selectedPath, handleAppOpen, handleAppSelect }: FolderProps) {
     if (node.metadata.appInfo.kind !== 'folder') {
         throw new Error(`Node at path ${node.path} is not a folder or is missing metadata.`);
     }
@@ -17,7 +19,9 @@ function Folder({ node, openWindows, handleAppClick }: FolderProps) {
         <App 
             key={childNode.path} 
             node={childNode} 
-            handleAppClick={() => handleAppClick(childNode.path)} 
+            selected={selectedPath === childNode.path}
+            handleOpen={() => handleAppOpen(childNode.path)} 
+            handleSelect={() => handleAppSelect(childNode.path)}
         />
     );
     const { background, tileBackground } = node.metadata.appInfo;
@@ -30,6 +34,8 @@ function Folder({ node, openWindows, handleAppClick }: FolderProps) {
         <div 
             className={tileBackground ? `${styles.folder} ${styles.tiled}` : styles.folder} 
             style={ background ? { backgroundImage } : {}}
+            // Clicking empty space (not an icon or window) clears the selection
+            onClick={(e) => { if (e.target === e.currentTarget) handleAppSelect(null); }}
         >
             {folderApps}
             {openWindows}
