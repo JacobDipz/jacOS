@@ -1,9 +1,26 @@
 
 .app {
+  /* ---- Settings: the highlight behind an icon when hovered, clicked or reached with Tab ---- */
+
+  /* Art: src/assets/icon-highlight/hover.png and selected.png, 9-slice images */
+  --highlight-slice: 2;                   /* how far the corners reach into both images, in their own pixels */
+  --label-color: #f8e5ff;                 /* filename text */
+  --label-color-hover: #f8e5ff;
+  --label-color-selected: #ffffff;
+
+  /* Keyboard focus (Tab): art is src/assets/icon-highlight/focus.png, shown instead of selected.png */
+  --focus-slice: 2;                       /* how far the corners reach into focus.png, in its own pixels */
+  --focus-repeat: repeat;                 /* repeat tiles the edges (for dotted or dashed frames); stretch for solid ones */
+  --focus-offset: 0;                      /* moves it outward (or inward, if negative), in art pixels */
+  --label-color-focus: #ffffff;
+
+  /* ---- */
+
+  position: relative;
+  isolation: isolate;  /* keeps the highlight (::before) behind the icon but in front of the folder */
   width: 115px;  /* fits the longest filename label and keeps the centered icon on the art-pixel grid */
   margin: 5px 0 15px;
   padding: 5px;
-  border-radius: 5px;
   box-sizing: border-box;
   background-color: transparent;
   display: flex;
@@ -32,24 +49,54 @@
 }
 
 .appTitle {
-  margin: 4px 0 0;
+  margin: 5px 0 0;
   display: block;
   font-family: var(--font-minecraft);
   font-size: var(--minecraft-px);
-  line-height: 1.2;
-  color:#f8e5ff;
+  line-height: 20px;  /* whole pixels, so the highlight's edges stay sharp */
+  color: var(--label-color);
   white-space: nowrap
 }
 
-.app:hover {
-  background-color: rgba(130, 169, 255, 0.3);
+/* The highlight, drawn behind the icon and its name. Later rules win, so the order is
+   hover < selected (clicked) < focus (reached with Tab). */
+.app::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: calc(var(--highlight-slice) * var(--px));
+  border-color: transparent;
+  image-rendering: pixelated;
 }
 
-.app.selected {
-  background-color: rgba(130, 169, 255, 0.6);
+.app:hover::before {
+  border-image: url('../../assets/icon-highlight/hover.png') var(--highlight-slice) fill / calc(var(--highlight-slice) * var(--px)) stretch;
+}
+
+.app.selected::before {
+  border-image: url('../../assets/icon-highlight/selected.png') var(--highlight-slice) fill / calc(var(--highlight-slice) * var(--px)) stretch;
 }
 
 .app:focus-visible {
-  outline: 2px dashed #f8e5ff;
-  outline-offset: -2px;
+  outline: none;
+}
+
+.app:focus-visible::before {
+  inset: calc(-1 * var(--focus-offset) * var(--px));
+  border-image: url('../../assets/icon-highlight/focus.png') var(--focus-slice) fill / calc(var(--focus-slice) * var(--px)) var(--focus-repeat);
+}
+
+.app:hover .appTitle {
+  color: var(--label-color-hover);
+}
+
+.app.selected .appTitle {
+  color: var(--label-color-selected);
+}
+
+.app:focus-visible .appTitle {
+  color: var(--label-color-focus);
 }

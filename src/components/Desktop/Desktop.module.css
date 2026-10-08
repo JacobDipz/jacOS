@@ -16,4 +16,15 @@
   flex: 1;
   display: flex;            /* Enables flexbox layout */
   flex-direction: column;   /* Stacks child elements vertically */
+  --dock-height: calc(29 * var(--px));  /* space reserved for the dock; see Dock.module.css */
+}
+
+/* Invisible: the space windows can use, everything above the dock */
+.windowArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--dock-height);
+  pointer-events: none;
 }

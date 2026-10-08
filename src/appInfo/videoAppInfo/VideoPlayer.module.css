@@ -1,0 +1,132 @@
+.player {
+  /* ---- Settings: change these to adjust the player (sizes in art pixels) ---- */
+
+  /* Art is in src/assets/video/ */
+  --button-size: 7;               /* match the button images (play.png, pause.png, sound.png, muted.png, fullscreen.png) */
+  --bar-slice: 2;                 /* how far the corners reach into controls-bar.png, a 9-slice image */
+  --bar-padding: 1;               /* space between the bar's frame and the controls */
+  --controls-gap: 2;              /* space between controls */
+  --seek-height: 5;               /* match seek-track.png and seek-fill.png's height */
+  --seek-cap: 2;                  /* pixels at both ends of the seek images kept as drawn instead of stretched */
+  --thumb-width: 3;               /* match seek-thumb.png */
+  --thumb-height: 7;
+  --time-color: #f8e5ff;
+  --caption-color: #2a1860;
+  --screen-background: #000000;   /* behind the video, where it doesn't fill the window */
+
+  /* ---- */
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  image-rendering: pixelated;
+}
+
+.player:fullscreen {
+  background: var(--screen-background);
+}
+
+.screen {
+  flex: 1;
+  min-height: 0;
+  background: var(--screen-background);
+  cursor: pointer;
+}
+
+.screen video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.screen video.pixelated {
+  image-rendering: pixelated;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--controls-gap) * var(--px));
+  padding: calc(var(--bar-padding) * var(--px));
+  border-style: solid;
+  border-width: calc(var(--bar-slice) * var(--px));
+  border-image: url('../../assets/video/controls-bar.png') var(--bar-slice) fill / calc(var(--bar-slice) * var(--px)) stretch;
+}
+
+.button {
+  flex-shrink: 0;
+  width: calc(var(--button-size) * var(--px));
+  height: calc(var(--button-size) * var(--px));
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.seekBar {
+  position: relative;
+  flex: 1;
+  min-width: calc(10 * var(--px));
+  height: calc(var(--seek-height) * var(--px));
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 0 calc(var(--seek-cap) * var(--px));
+  border-image: url('../../assets/video/seek-track.png') 0 var(--seek-cap) fill / 0 calc(var(--seek-cap) * var(--px)) stretch;
+  cursor: pointer;
+  touch-action: none;  /* dragging along the bar seeks instead of scrolling the page */
+}
+
+/* Fills from the left as the video plays; always at least as wide as its two ends */
+.seekFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--seek-cap) * var(--px));
+  width: calc(2 * var(--seek-cap) * var(--px) + (100% * var(--progress)));
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 0 calc(var(--seek-cap) * var(--px));
+  border-image: url('../../assets/video/seek-fill.png') 0 var(--seek-cap) fill / 0 calc(var(--seek-cap) * var(--px)) stretch;
+}
+
+.seekThumb {
+  position: absolute;
+  top: 50%;
+  left: calc(100% * var(--progress));
+  width: calc(var(--thumb-width) * var(--px));
+  height: calc(var(--thumb-height) * var(--px));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.seekBar:focus-visible {
+  outline: 2px dashed var(--time-color);
+  outline-offset: calc(2 * var(--px));
+}
+
+.time {
+  flex-shrink: 0;
+  color: var(--time-color);
+  font-family: var(--font-minecraft);
+  font-size: var(--minecraft-px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.caption {
+  margin: 0;
+  padding: calc(2 * var(--px)) calc(3 * var(--px));
+  color: var(--caption-color);
+  font-family: var(--font-minecraft);
+  font-size: var(--minecraft-px);
+  line-height: 1.5;
+}

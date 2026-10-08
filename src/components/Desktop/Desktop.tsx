@@ -2,6 +2,10 @@ import buildTree from '../../tree/buildTree.ts'
 import Window from '../Window/Window.tsx';
 import styles from './Desktop.module.css';
 import Folder from '../Folder/Folder.tsx';
+import Dock from '../Dock/Dock.tsx';
+import { TRASH_PATH } from '../../apps/dock.config.ts';
+import { openLink } from '../openLink.ts';
+import { useElementSize } from '../useElementSize.ts';
 import { useEffect, useRef, useState } from 'react';
 import { PX } from '../pixelScale.ts';
 
@@ -16,8 +20,14 @@ function Desktop() {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   // What had focus when each window opened (usually its icon), so closing can return focus there
   const openers = useRef(new Map<string, HTMLElement>());
+  const { ref: windowAreaRef, ...windowArea } = useElementSize();
 
   function handleOpen(path: string) {
+    const appInfo = pathToNode[path].metadata.appInfo;
+    if (appInfo.kind === 'link') {
+      openLink(appInfo.url);
+      return;
+    }
     if (!openWindowPaths.includes(path)){
       if (document.activeElement instanceof HTMLElement) {
         openers.current.set(path, document.activeElement);
@@ -67,6 +77,7 @@ function Desktop() {
     <Window 
       key={path} 
       node={pathToNode[path]} 
+      area={windowArea}
       cascade={index}
       zOrder={zOrder.indexOf(path)}
       selectedPath={selectedPath}
@@ -85,6 +96,13 @@ function Desktop() {
         selectedPath={selectedPath}
         handleAppOpen={handleOpen}
         handleAppSelect={setSelectedPath}
+      />
+      <div className={styles.windowArea} ref={windowAreaRef} />
+      <Dock
+        openWindows={openWindowPaths.map(path => pathToNode[path])}
+        topWindowPath={zOrder[zOrder.length - 1]}
+        trash={pathToNode[TRASH_PATH]}
+        handleOpen={handleOpen}
       />
     </div>
   );

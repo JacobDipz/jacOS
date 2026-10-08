@@ -15,7 +15,8 @@ function Folder({ node, openWindows, selectedPath, handleAppOpen, handleAppSelec
     if (node.metadata.appInfo.kind !== 'folder') {
         throw new Error(`Node at path ${node.path} is not a folder or is missing metadata.`);
     }
-    const folderApps = Object.values(node.children).map(childNode => 
+    const visibleChildren = Object.values(node.children).filter(childNode => !childNode.metadata.hidden);
+    const folderApps = visibleChildren.map(childNode => 
         <App 
             key={childNode.path} 
             node={childNode} 

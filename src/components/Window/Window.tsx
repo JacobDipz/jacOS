@@ -25,28 +25,32 @@ function fitToGrid(available: number) {
   return Math.floor(available / PX) * PX;
 }
 
+// The space windows can use (the screen above the dock)
+export type WindowArea = { element: HTMLElement | null, width: number, height: number };
+
 // Where a window opens along one axis: centered, shifted by its cascade position,
-// kept on screen, and snapped to the art-pixel grid
+// kept in the window area, and snapped to the art-pixel grid
 function openingOffset(size: number, available: number, cascade: number) {
   const centered = Math.round((available - size) / 2 / PX) * PX;
   const shifted = centered + (cascade % CASCADE_LIMIT) * CASCADE_STEP * PX;
   return Math.max(0, Math.min(shifted, fitToGrid(available - size)));
 }
 
-// Shrink and move a window as needed so all of it is on screen
-function fitOnScreen(frame: Frame): Frame {
-  const width = Math.min(frame.width, fitToGrid(window.innerWidth));
-  const height = Math.min(frame.height, fitToGrid(window.innerHeight));
+// Shrink and move a window as needed so all of it is in the window area
+function fitInArea(frame: Frame, area: WindowArea): Frame {
+  const width = Math.min(frame.width, fitToGrid(area.width));
+  const height = Math.min(frame.height, fitToGrid(area.height));
   return {
     width,
     height,
-    x: Math.max(0, Math.min(frame.x, fitToGrid(window.innerWidth - width))),
-    y: Math.max(0, Math.min(frame.y, fitToGrid(window.innerHeight - height))),
+    x: Math.max(0, Math.min(frame.x, fitToGrid(area.width - width))),
+    y: Math.max(0, Math.min(frame.y, fitToGrid(area.height - height))),
   };
 }
 
 type WindowProps = {
     node: ValidTreeNode,
+    area: WindowArea,
     cascade: number, // how many windows were already open when this one opened
     zOrder: number,
     selectedPath: string | null,
@@ -57,14 +61,18 @@ type WindowProps = {
 }
 
 function Window({
-  node, cascade, zOrder, selectedPath,
+  node, area, cascade, zOrder, selectedPath,
   handleWindowClose, handleWindowClick, handleAppOpen, handleAppSelect,
 }: WindowProps) {
   const metadata = node.metadata;
+  const appInfo = metadata.appInfo;
+  if (appInfo.kind === 'link') {
+    throw new Error(`${node.path} is a link; links open in a new tab, not a window.`);
+  }
   const isSmallScreen = useMediaQuery(SMALL_SCREEN);
 
-  const content = metadata.appInfo.kind === 'file'
-  ?  metadata.appInfo.content
+  const content = appInfo.kind === 'file'
+  ?  appInfo.content
   :  <Folder
        node={node}
        openWindows={[]}
@@ -76,26 +84,20 @@ function Window({
   const titleId = useId();
   const rndRef = useRef<Rnd>(null);
 
-  // Position and size on screen; windows larger than the screen open shrunk to fit
+  // Where the visitor last put the window. Windows larger than the area open shrunk to fit.
   const [frame, setFrame] = useState<Frame>(() => {
-    const width = Math.min((metadata.appInfo.width ?? DEFAULT_WIDTH) * PX, fitToGrid(window.innerWidth));
-    const height = Math.min((metadata.appInfo.height ?? DEFAULT_HEIGHT) * PX, fitToGrid(window.innerHeight));
+    const width = Math.min((appInfo.width ?? DEFAULT_WIDTH) * PX, fitToGrid(area.width));
+    const height = Math.min((appInfo.height ?? DEFAULT_HEIGHT) * PX, fitToGrid(area.height));
     return {
-      x: openingOffset(width, window.innerWidth, cascade),
-      y: openingOffset(height, window.innerHeight, cascade),
+      x: openingOffset(width, area.width, cascade),
+      y: openingOffset(height, area.height, cascade),
       width,
       height,
     };
   });
-
-  // When the browser window shrinks, pull this window back on screen
-  useEffect(() => {
-    function handleResize() {
-      setFrame(fitOnScreen);
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Where it's shown: pulled back into the area if the browser shrank since. The stored frame
+  // is kept, so the window returns to its old size if the browser grows again.
+  const shown = fitInArea(frame, area);
 
   // Move keyboard focus into the window when it opens
   useEffect(() => {
@@ -106,16 +108,16 @@ function Window({
     <Rnd
       ref={rndRef}
       // Phones: fill the screen, no dragging or resizing
-      position={isSmallScreen ? { x: 0, y: 0 } : { x: frame.x, y: frame.y }}
-      size={isSmallScreen ? { width: '100%', height: '100%' } : { width: frame.width, height: frame.height }}
+      position={isSmallScreen ? { x: 0, y: 0 } : { x: shown.x, y: shown.y }}
+      size={isSmallScreen ? { width: area.width, height: area.height } : { width: shown.width, height: shown.height }}
       onDragStop={(_e, d) => setFrame((f) => ({ ...f, x: d.x, y: d.y }))}
       onResizeStop={(_e, _direction, ref, _delta, position) =>
         setFrame({ width: ref.offsetWidth, height: ref.offsetHeight, ...position })
       }
       disableDragging={isSmallScreen}
       enableResizing={!isSmallScreen}
-      // Keep windows on screen so the title bar can always be grabbed
-      bounds="parent"
+      // Keep windows in the area above the dock so the title bar can always be grabbed
+      bounds={area.element ?? 'parent'}
       minWidth={MIN_WIDTH * PX}
       minHeight={MIN_HEIGHT * PX}
       // Snap to the art-pixel grid so the frame never lands between pixels

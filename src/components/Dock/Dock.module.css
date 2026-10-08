@@ -1,0 +1,176 @@
+/*
+ * Sizes are in art pixels (--px). The bar is 27 tall: 3 border + 3 padding + 15 icon + 3 padding + 3 border,
+ * and sits 2 above the bottom of the screen, which adds up to --dock-height (29, set in Desktop.module.css).
+ */
+
+.dock {
+  /* ---- Settings: change these to adjust the hover label, dividers and focus frame (sizes in art pixels) ---- */
+
+  /* Hover label: art is src/assets/dock/dock-label.png, a 9-slice image */
+  --label-slice: 2;          /* how far the corners reach into dock-label.png, in its own pixels */
+  --label-padding-x: 1;      /* space between the frame and the text */
+  --label-padding-y: 0;
+  --label-gap: 3;            /* space between the label and the icon below it */
+  --label-text-color: #f8e5ff;
+  --label-text-size: 1;      /* times 16px; whole numbers keep the Minecraft font sharp */
+
+  /* Dividers: art is src/assets/dock/dock-divider.png, stretched to the height of the icons */
+  --divider-width: 1;        /* match dock-divider.png's width */
+  --divider-cap: 0;          /* pixels at its top and bottom kept as drawn instead of stretched */
+  --divider-inset: 0;        /* shortens the divider at both ends */
+
+  /* Keyboard focus (Tab): art is src/assets/dock/dock-focus.png, a 9-slice frame drawn around the icon */
+  --focus-slice: 2;          /* how far the corners reach into dock-focus.png, in its own pixels */
+  --focus-repeat: repeat;    /* repeat tiles the edges (for dotted or dashed frames); stretch for solid ones */
+  --focus-offset: 1;         /* how far the frame sits outside the icon */
+
+  /* ---- */
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--dock-height);
+  box-sizing: border-box;
+  padding-bottom: calc(2 * var(--px));
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;  /* only the bar itself takes clicks */
+  z-index: 1000;         /* above windows */
+}
+
+.bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: calc(2 * var(--px));
+  padding: calc(3 * var(--px));
+  border-style: solid;
+  border-width: calc(3 * var(--px));
+  border-image: url('../../assets/dock/dock-bar.png') 3 fill / calc(3 * var(--px)) stretch;
+  image-rendering: pixelated;
+}
+
+.item {
+  position: relative;
+  display: block;
+  width: calc(15 * var(--px));
+  height: calc(15 * var(--px));
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.12s steps(2);  /* hops in 1-art-pixel steps instead of sliding */
+}
+
+.item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Items with a hover image swap to it while hovered */
+.item .hoverIcon {
+  display: none;
+}
+
+.item:hover .hoverIcon,
+.item:focus-visible .hoverIcon {
+  display: block;
+}
+
+.item:hover .hoverIcon + .icon,
+.item:focus-visible .hoverIcon + .icon {
+  display: none;
+}
+
+.item:hover,
+.item:focus-visible {
+  transform: translateY(calc(-2 * var(--px)));
+}
+
+/* Keyboard focus frame. Its center is never drawn, so it can't cover the icon. */
+.item::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--focus-offset) * var(--px));
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: calc(var(--focus-slice) * var(--px));
+  border-color: transparent;
+  pointer-events: none;
+}
+
+.item:focus-visible {
+  outline: none;
+}
+
+.item:focus-visible::after {
+  border-image: url('../../assets/dock/dock-focus.png') var(--focus-slice) / calc(var(--focus-slice) * var(--px)) var(--focus-repeat);
+}
+
+/* Name shown above the icon on hover */
+.label {
+  position: absolute;
+  bottom: calc(100% + var(--label-gap) * var(--px));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: calc(var(--label-padding-y) * var(--px)) calc(var(--label-padding-x) * var(--px));
+  border-style: solid;
+  border-width: calc(var(--label-slice) * var(--px));
+  border-image: url('../../assets/dock/dock-label.png') var(--label-slice) fill / calc(var(--label-slice) * var(--px)) stretch;
+  color: var(--label-text-color);
+  font-family: var(--font-minecraft);
+  font-size: calc(var(--label-text-size) * var(--minecraft-px));
+  line-height: 1;
+  white-space: nowrap;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.item:hover .label,
+.item:focus-visible .label {
+  visibility: visible;
+}
+
+/* Marks windows that are open */
+.openDot {
+  position: absolute;
+  left: 50%;
+  bottom: calc(-2 * var(--px));
+  width: var(--px);
+  height: var(--px);
+  transform: translateX(-50%);
+  background: #2a1860;
+}
+
+.divider {
+  align-self: stretch;
+  box-sizing: border-box;
+  width: calc(var(--divider-width) * var(--px));
+  margin: calc(var(--divider-inset) * var(--px)) 0;
+  border-style: solid;
+  border-width: calc(var(--divider-cap) * var(--px)) 0;
+  border-image: url('../../assets/dock/dock-divider.png') var(--divider-cap) 0 fill / calc(var(--divider-cap) * var(--px)) 0 stretch;
+}
+
+/*
+ * Narrow screens: swipe the dock sideways instead of letting it run off the screen.
+ * (Scrolling clips anything outside the bar, so this is limited to narrow screens, where hover labels matter less.)
+ */
+@media (max-width: 640px) {
+  .bar {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}
