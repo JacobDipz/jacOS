@@ -1,28 +1,51 @@
-/* Body text uses Minecraft: Daydream is all caps, which is hard to read in paragraphs */
 .project {
+  /* ---- Settings ---- */
+  --text-color: #2a1860;
+  --card-background: #f8e5ff;     /* at-a-glance card, challenge cards, tags and buttons */
+  --card-border: #2a1860;
+  --heading-background: #2a1860;  /* section header tabs */
+  --heading-color: #f8e5ff;
+  /* ---- */
+
   box-sizing: border-box;
+  max-width: calc(150 * var(--px));  /* keeps lines short enough to read comfortably */
+  margin: 0 auto;
   padding: calc(4 * var(--px));
-  color: #2a1860;
-  font-family: var(--font-minecraft);
-  font-size: var(--minecraft-px);
-  line-height: 1.5;
+  color: var(--text-color);
+  line-height: 1.5;  /* body text is the window's Minecraft font */
 }
 
 .project p {
   margin: 0 0 calc(3 * var(--px));
 }
 
+/* What is it, in one sentence */
 .project .pitch {
-  font-family: 'Daydream', var(--font-minecraft);
-  font-size: calc(2 * var(--text-px));
-  line-height: 1.3;
+  margin-bottom: calc(4 * var(--px));
+  font-size: calc(2 * var(--minecraft-px));
+  line-height: 1.25;
+}
+
+/* At-a-glance card */
+.card {
+  margin: 0 var(--px) calc(5 * var(--px)) 0;
+  padding: calc(3 * var(--px));
+  border: var(--px) solid var(--card-border);
+  background: var(--card-background);
+  box-shadow: var(--px) var(--px) 0 var(--card-border);
 }
 
 .facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(2 * var(--px)) calc(6 * var(--px));
-  margin: 0 0 calc(3 * var(--px));
+  display: grid;
+  gap: calc(2 * var(--px));
+  margin: 0;
+}
+
+.facts > div {
+  display: grid;
+  grid-template-columns: calc(22 * var(--px)) 1fr;
+  align-items: baseline;
+  gap: calc(2 * var(--px));
 }
 
 .facts dt {
@@ -37,23 +60,113 @@
 .tools {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(2 * var(--px));
-  margin: 0 0 calc(4 * var(--px));
+  gap: var(--px) calc(2 * var(--px));
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .tools li {
   padding: 0 calc(2 * var(--px));
-  border: var(--px) solid #2a1860;
-  background: #f8e5ff;
+  border: var(--px) solid var(--card-border);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(2 * var(--px));
+  margin-top: calc(3 * var(--px));
+}
+
+.links a {
+  padding: var(--px) calc(3 * var(--px));
+  border: var(--px) solid var(--card-border);
+  background: var(--card-border);
+  color: var(--card-background);
+  text-decoration: none;
+}
+
+.links a:hover {
+  background: var(--card-background);
+  color: var(--card-border);
+}
+
+/* Sections, each headed by a small tab */
+.section {
+  margin-top: calc(6 * var(--px));
+}
+
+.heading {
+  display: inline-block;
+  margin: 0 0 calc(3 * var(--px));
+  padding: var(--px) calc(2 * var(--px));
+  background: var(--heading-background);
+  color: var(--heading-color);
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: calc(2 * var(--text-px));
+  font-weight: normal;
+  line-height: 1;
+}
+
+/* Bulleted points with square pixel bullets */
+.points {
+  display: grid;
+  gap: calc(3 * var(--px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.points li {
+  position: relative;
+  padding-left: calc(4 * var(--px));
+}
+
+.points li::before {
+  content: '';
+  position: absolute;
+  left: var(--px);
+  top: calc(0.75em - 2px);  /* about the middle of the first line, on a whole pixel */
+  width: var(--px);
+  height: var(--px);
+  background: currentColor;
+}
+
+.pointTitle {
+  display: block;
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: var(--text-px);
+}
+
+/* Challenges as cards: side by side in wide windows, stacked in narrow ones */
+.challenges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(60 * var(--px)), 1fr));
+  gap: calc(3 * var(--px));
+}
+
+.challenge {
+  padding: calc(3 * var(--px));
+  border: var(--px) solid var(--card-border);
+  background: var(--card-background);
+}
+
+.challenge h4 {
+  margin: 0 0 var(--px);
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: var(--text-px);
+  font-weight: normal;
+}
+
+.challenge p {
+  margin: 0;
 }
 
 .images {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(calc(40 * var(--px)), 1fr));
   gap: calc(2 * var(--px));
-  margin: 0 0 calc(4 * var(--px));
+  margin-top: calc(5 * var(--px));
 }
 
 /* The first image spans the full width */
@@ -68,7 +181,7 @@
 .images img {
   display: block;
   width: 100%;
-  border: var(--px) solid #2a1860;
+  border: var(--px) solid var(--card-border);
   box-sizing: border-box;
 }
 
@@ -76,21 +189,10 @@
   margin-top: var(--px);
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(2 * var(--px));
-}
-
-.links a {
-  padding: var(--px) calc(3 * var(--px));
-  border: var(--px) solid #2a1860;
-  background: #f8e5ff;
-  color: #2a1860;
-  text-decoration: none;
-}
-
-.links a:hover {
-  background: #2a1860;
-  color: #f8e5ff;
+/* Narrow windows: fact labels above their values */
+@media (max-width: 640px) {
+  .facts > div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }

@@ -7,13 +7,18 @@ import fullscreenIcon from '../../assets/video/fullscreen.png';
 import thumbImage from '../../assets/video/seek-thumb.png';
 import styles from './VideoPlayer.module.css';
 
-export type VideoDetails = {
-    src: string;          // the video file, imported like an image: import video from "./my-video.mp4"
-    poster?: string;      // image shown before it plays (defaults to the first frame)
+type VideoOptions = {
+    poster?: string;      // image shown before it plays (defaults to the first frame); video files only
     loop?: boolean;       // start over when it ends
-    pixelated?: boolean;  // keep pixel-art videos sharp when scaled up
+    pixelated?: boolean;  // keep pixel-art videos sharp when scaled up; video files only
     caption?: string;     // text under the player
 };
+
+// Give either a video file (`src`) or a YouTube link (`youtube`)
+export type VideoDetails = VideoOptions & (
+    | { src: string, youtube?: undefined }    // the file, imported like an image: import video from "./my-video.mp4"
+    | { youtube: string, src?: undefined }    // any YouTube link, e.g. "https://youtu.be/..."; plays with YouTube's controls
+);
 
 const SEEK_STEP = 5; // seconds the arrow keys skip
 
@@ -24,7 +29,48 @@ function formatTime(seconds: number) {
     return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, '0')}`;
 }
 
-function VideoPlayer({ src, poster, loop, pixelated, caption }: VideoDetails) {
+// The video's ID from any YouTube link ("youtu.be/ID", "youtube.com/watch?v=ID", ".../embed/ID", ".../shorts/ID")
+function youtubeId(link: string) {
+    try {
+        const url = new URL(link);
+        if (url.hostname === 'youtu.be') return url.pathname.slice(1);
+        return url.searchParams.get('v') ?? url.pathname.split('/').pop() ?? link;
+    }
+    catch {
+        return link; // not a link, so assume it's already an ID
+    }
+}
+
+function YouTubePlayer({ youtube, loop, caption }: { youtube: string, loop?: boolean, caption?: string }) {
+    const id = youtubeId(youtube);
+    // youtube-nocookie.com is YouTube's privacy-enhanced embed; looping one video needs it listed as a playlist
+    const embedUrl = `https://www.youtube-nocookie.com/embed/${id}?rel=0${loop ? `&loop=1&playlist=${id}` : ''}`;
+
+    return (
+        <div className={styles.player}>
+            <div className={styles.screen}>
+                <iframe
+                    className={styles.embed}
+                    src={embedUrl}
+                    title={caption ?? 'YouTube video'}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                />
+            </div>
+            {caption && <p className={styles.caption}>{caption}</p>}
+        </div>
+    );
+}
+
+function VideoPlayer(details: VideoDetails) {
+    if (details.youtube !== undefined) {
+        return <YouTubePlayer youtube={details.youtube} loop={details.loop} caption={details.caption} />;
+    }
+    return <FilePlayer {...details} />;
+}
+
+function FilePlayer({ src, poster, loop, pixelated, caption }: VideoOptions & { src: string }) {
     const playerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const [playing, setPlaying] = useState(false);

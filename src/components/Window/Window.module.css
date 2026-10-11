@@ -55,15 +55,18 @@
   min-width: 0;
   display: flex;
   align-items: flex-start;
-  padding-top: var(--px);  /* Minecraft's caps start at the top of the line, so this is the gap above the text */
   /*padding: 0 calc(2 * var(--px));*/
   border-style: solid;
   border-width: calc(2 * var(--px));
   border-image: url('../../assets/window/titlebar.png') 2 fill / calc(2 * var(--px)) stretch;
   color: white;
-  font-family: var(--font-minecraft);
-  font-size: calc(2 * var(--minecraft-px));
-  line-height: 1;
+  font-family: var(--font-kiwi-soda);
+  font-size: calc(2 * var(--kiwi-soda-px));
+  /*
+   * Puts the tallest letters 1 art pixel below the top of the bar, at any font size:
+   * in Kiwi Soda, the tallest capitals (H, M, ...) start (line-height / 2 - 0.4375em) below the top of the line.
+   */
+  line-height: calc(2 * var(--px) + 0.875em);
 }
 
 .windowTitle span {
@@ -94,6 +97,8 @@
   overflow: auto;
   box-sizing: border-box;
   image-rendering: auto;  /* image-rendering is inherited; keep photos in apps smooth */
+  font-family: var(--font-minecraft);  /* default text inside windows */
+  font-size: var(--minecraft-px);
 }
 
 .resizeGrip {

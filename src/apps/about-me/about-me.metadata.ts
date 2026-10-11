@@ -7,7 +7,7 @@ const aboutMeMetadata: NodeMetadata = {
         ...txtAppInfo,
         content: AboutMe(),
     },
-    title: 'About me!'
+    title: 'About Me!'
 };
 
 export default aboutMeMetadata;

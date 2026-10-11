@@ -3,23 +3,32 @@ import { projectAppInfo, projectPage } from "../../../appInfo/projectAppInfo/pro
 // To add images, put them in this folder and import them, e.g.:
 // import screenshot from "./screenshot.png";
 
-// TODO: replace the placeholder text with the real project details
+// TODO: replace the placeholder text with the real project details. Leave out anything you don't have.
 const ctrlMeetMetadata: NodeMetadata = {
     appInfo: {
         ...projectAppInfo,
         content: projectPage({
             pitch: "One sentence: what Ctrl+Meet is and who it's for.",
-            date: "Fall 2025",
-            role: "What you built, e.g. Solo or Frontend lead",
+
+            role: "What you did, e.g. Solo developer, or Frontend lead on a team of 4",
+            timeline: "Fall 2025",
             tools: ["React", "TypeScript"],
-            // images: [{ src: screenshot, alt: "Ctrl+Meet's main screen", caption: "Optional caption" }],
-            about: [
-                "What was hard about building it, and how you solved it.",
-                "What you learned, or what you'd do differently.",
-            ],
             links: [
                 { name: "GitHub", url: "https://github.com/your-username/ctrl-meet" },
             ],
+
+            highlights: [
+                "The thing you most want a recruiter to remember",
+                "A number, if you have one: users, speedup, size",
+            ],
+            // images: [{ src: screenshot, alt: "Ctrl+Meet's main screen" }],
+
+            problem: ["Why it needed to exist."],
+            solution: ["What you built and how it works."],
+            challenges: [
+                { title: "The hardest part", text: "What made it hard, and how you solved it." },
+            ],
+            learned: ["What you learned."],
         }),
     },
     title: "Ctrl+Meet"

@@ -1,8 +1,139 @@
 .aboutMe {
+  /* ---- Settings (sizes in art pixels) ---- */
+  --text-color: #2a1860;
+  --accent-background: #f8e5ff;   /* "Looking for" box and interest tags */
+  --accent-border: #2a1860;
+  --portrait-scale: 2;            /* the portrait is 128 × 128 art pixels; whole numbers keep it sharp */
+  /* ---- */
+
+  box-sizing: border-box;
+  max-width: calc(150 * var(--px));  /* keeps lines short enough to read comfortably in wide windows */
+  margin: 0 auto;
+  padding: calc(4 * var(--px));
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.aboutMe p {
+  margin: 0 0 calc(3 * var(--px));
+}
+
+/* Portrait beside the intro; they stack on narrow windows */
+.intro {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
+  gap: calc(4 * var(--px));
+  margin-bottom: calc(2 * var(--px));
+}
+
+.portrait {
+  flex-shrink: 0;
+  width: calc(180px * var(--portrait-scale));
+  height: auto;
+  /*image-rendering: pixelated;*/
+}
+
+.introText {
+  flex: 1 1 calc(60 * var(--px));
+  min-width: 0;
+}
+
+.greeting {
+  margin: 0 0 calc(2 * var(--px));
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: calc(3 * var(--text-px));
+  font-weight: normal;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: calc(1.5 * var(--minecraft-px));
+  line-height: 1.25;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(2 * var(--px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0 calc(2 * var(--px));
+  border: var(--px) solid var(--accent-border);
+  background: var(--accent-background);
+}
+
+/* The "Looking for" box, with a hard pixel shadow */
+.aboutMe .callout {
+  margin: calc(4 * var(--px)) var(--px) calc(5 * var(--px)) 0;
+  padding: calc(2 * var(--px)) calc(3 * var(--px));
+  border: var(--px) solid var(--accent-border);
+  background: var(--accent-background);
+  box-shadow: var(--px) var(--px) 0 var(--accent-border);
+  font-size: calc(2 * var(--minecraft-px));
+  line-height: 1.25;
+}
+
+.calloutLabel {
+  display: block;
+  margin-bottom: var(--px);
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: var(--text-px);
+}
+
+.heading {
+  margin: calc(5 * var(--px)) 0 calc(2 * var(--px));
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: calc(2 * var(--text-px));
+  font-weight: normal;
+}
+
+/* Courses in columns, with square pixel bullets */
+.courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(50 * var(--px)), 1fr));
+  gap: var(--px) calc(4 * var(--px));
+  margin: 0 0 calc(3 * var(--px));
+  padding: 0;
+  list-style: none;
+}
+
+.courses li {
+  display: flex;
+  align-items: center;
+  gap: calc(2 * var(--px));
+}
+
+.courses li::before {
+  content: '';
+  flex-shrink: 0;
+  width: var(--px);
+  height: var(--px);
+  background: currentColor;
+}
+
+/* Fun facts: small label above each answer */
+.facts {
+  display: grid;
+  gap: calc(2 * var(--px));
+  margin: 0;
+}
+
+.facts dt {
+  font-family: 'Daydream', var(--font-minecraft);
+  font-size: var(--text-px);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.aboutMe .signoff {
+  margin: calc(6 * var(--px)) 0 0;
+  padding-top: calc(3 * var(--px));
+  border-top: var(--px) dashed var(--accent-border);
 }

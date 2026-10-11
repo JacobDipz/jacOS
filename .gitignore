@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*.mov
+src/apps/animation/out-of-focus/out-of-focus.mp4
+.claude/*
+GUIDE.md

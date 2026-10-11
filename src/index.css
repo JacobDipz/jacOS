@@ -13,6 +13,12 @@
   font-display: block;
 }
 
+@font-face {
+  font-family: 'Kiwi Soda';
+  src: url('./assets/fonts/KiwiSoda.ttf') format('truetype');
+  font-display: block;
+}
+
 :root {
   /*
    * Daydream is drawn on a grid of 96 font units per pixel (1024 per em), so at this
@@ -24,6 +30,10 @@
   /* Minecraft is drawn on a 64-unit grid (1024 per em): one font pixel per screen pixel at 16px */
   --minecraft-px: 16px;
   --font-minecraft: 'Minecraft', sans-serif;
+
+  /* Kiwi Soda, used for window titles, is on the same 64-unit grid: sharp at multiples of 16px */
+  --kiwi-soda-px: 16px;
+  --font-kiwi-soda: 'Kiwi Soda', var(--font-minecraft);
 }
 
 body {
@@ -39,4 +49,9 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+/* While a window is dragged, embedded pages (like YouTube videos) would otherwise swallow the mouse and stall the drag */
+.react-draggable-transparent-selection iframe {
+  pointer-events: none;
 }
